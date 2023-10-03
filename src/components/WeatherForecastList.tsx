@@ -62,27 +62,29 @@ function WeatherForecastList({ days }: WeatherForecastListProps) {
 
    return (
       <div className="weatherForecastList">
-         {forecast
-            ?.slice(1, days + 1)
-            .map(({ icon, description, temperature }, index) => {
-               const itemDayIndex = index + 1;
+         <div className="weatherForecastListContent">
+            {forecast
+               ?.slice(1, days + 1)
+               .map(({ icon, description, temperature }, index) => {
+                  const itemDayIndex = index + 1;
 
-               return (
-                  <WeatherForecastListItem
-                     dayName={time.now(itemDayIndex, true).dayName}
-                     date={`${time.now(itemDayIndex).date} ${
-                        time.now(itemDayIndex, true).monthName
-                     }`}
-                     weatherIcon={`http://openweathermap.org/img/wn/${icon}@4x.png`}
-                     forecast={description}
-                     minTemperature={temperature.min ?? "--"}
-                     maxTemperature={temperature.max ?? "--"}
-                     onClick={setSelectedDay}
-                     onClickValue={itemDayIndex}
-                     key={index}
-                  />
-               );
-            })}
+                  return (
+                     <WeatherForecastListItem
+                        dayName={time.now(itemDayIndex, true).dayName}
+                        date={`${time.now(itemDayIndex).date} ${
+                           time.now(itemDayIndex, true).monthName
+                        }`}
+                        weatherIcon={`http://openweathermap.org/img/wn/${icon}@4x.png`}
+                        forecast={description}
+                        minTemperature={temperature.min ?? "--"}
+                        maxTemperature={temperature.max ?? "--"}
+                        onClick={setSelectedDay}
+                        onClickValue={itemDayIndex}
+                        key={index}
+                     />
+                  );
+               })}
+         </div>
       </div>
    );
 }

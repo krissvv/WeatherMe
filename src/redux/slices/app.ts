@@ -15,12 +15,17 @@ export type AppSliceStateT = {
          feelsLike: number;
       };
       description: string;
+      summary: string;
       humidity: number;
       pressure: number;
       clouds: number;
       windSpeed: number;
       sunrise: number;
       sunset: number;
+      hourly?: {
+         icon: string;
+         temperature: number;
+      }[];
    }[];
    /** 0 = today */
    selectedDay?: number;

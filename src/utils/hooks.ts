@@ -47,20 +47,32 @@ export function useTime() {
 
    const daysOfWeekShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+   const constructTimeObject = (date: Date, shortened?: boolean) => {
+      return {
+         monthName: (shortened ? monthsShort : months)[date.getMonth()],
+         date: date.getDate(),
+         dayName: (shortened ? daysOfWeekShort : daysOfWeek)[date.getDay()],
+         hours: date.getHours(),
+         minutes: date.getMinutes(),
+         seconds: date.getSeconds(),
+         milliseconds: date.getMilliseconds(),
+         time: `${String(date.getHours()).padStart(2, "0")}:${String(
+            date.getMinutes(),
+         ).padStart(2, "0")}`,
+      };
+   };
+
    return {
       now(daysShift = 0, shortened?: boolean) {
          const date = new Date();
          date.setDate(date.getDate() + daysShift);
 
-         return {
-            monthName: (shortened ? monthsShort : months)[date.getMonth()],
-            date: date.getDate(),
-            dayName: (shortened ? daysOfWeekShort : daysOfWeek)[date.getDay()],
-            hours: date.getHours(),
-            minutes: date.getMinutes(),
-            seconds: date.getSeconds(),
-            milliseconds: date.getMilliseconds(),
-         };
+         return constructTimeObject(date, shortened);
+      },
+      time(time: number, shortened?: boolean) {
+         const date = new Date(time * 1000);
+
+         return constructTimeObject(date, shortened);
       },
    };
 }

@@ -1535,12 +1535,17 @@ function* onLoadCurrentLocationForecast() {
                },
                description:
                   currentLocationWeatherOneCall.data.current.weather[0].description,
+               summary: currentLocationWeatherOneCall.data.daily[0].summary,
                humidity: currentLocationWeatherOneCall.data.current.humidity,
                pressure: currentLocationWeatherOneCall.data.current.pressure,
                clouds: currentLocationWeatherOneCall.data.current.clouds,
                windSpeed: currentLocationWeatherOneCall.data.current.wind_speed,
                sunrise: currentLocationWeatherOneCall.data.current.sunrise,
                sunset: currentLocationWeatherOneCall.data.current.sunset,
+               hourly: currentLocationWeatherOneCall.data.hourly.map((data) => ({
+                  icon: data.weather[0].icon,
+                  temperature: data.temp,
+               })),
             },
             ...currentLocationWeatherOneCall.data.daily.slice(1).map((data) => {
                return {
@@ -1552,6 +1557,7 @@ function* onLoadCurrentLocationForecast() {
                      feelsLike: Math.round(data.feels_like.day),
                   },
                   description: data.weather[0].description,
+                  summary: data.summary,
                   humidity: data.humidity,
                   pressure: data.pressure,
                   clouds: data.clouds,

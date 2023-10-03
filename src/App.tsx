@@ -5,8 +5,9 @@ import { appSlice } from "./redux/slices/app";
 import { useAction, useLocation, useReduxState } from "./utils/hooks";
 
 import TopBar from "./components/TopBar";
-import MainTodayWeatherCard from "./components/MainTodayWeatherCard";
+import WeatherMainDayCard from "./components/WeatherMainDayCard";
 import WeatherForecastList from "./components/WeatherForecastList";
+import WeatherDayDetails from "./components/WeatherDayDetails";
 
 function App() {
    const location = useLocation();
@@ -32,8 +33,9 @@ function App() {
                   : currentLocationName ?? `Location denied`
             }
          />
-         <MainTodayWeatherCard />
+         <WeatherMainDayCard />
          <WeatherForecastList days={4} />
+         <WeatherDayDetails />
       </>
    );
 }

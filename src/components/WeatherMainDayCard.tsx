@@ -6,7 +6,7 @@ import { appSlice } from "../redux/slices/app";
 
 import { useAction, useReduxState } from "../utils/hooks";
 
-function MainTodayWeatherCard() {
+function WeatherMainDayCard() {
    const selectedDay = useReduxState((state) => state.app.selectedDay);
    const forecast = useReduxState((state) => state.app.forecast);
 
@@ -15,19 +15,14 @@ function MainTodayWeatherCard() {
    const selectedDayCurrentTemperature = forecast
       ? forecast[selectedDay ?? 0]?.temperature.current
       : "--";
-
    const selectedDayWeatherIconURl = `http://openweathermap.org/img/wn/${
       forecast ? forecast[selectedDay ?? 0]?.icon : "01d"
    }@4x.png`;
-
    const selectedDayDescription = forecast
       ? forecast[selectedDay ?? 0]?.description
       : "--";
-
    const selectedDayHumidity = forecast ? forecast[selectedDay ?? 0]?.humidity : "--";
-
    const selectedDayClouds = forecast ? forecast[selectedDay ?? 0]?.clouds : "--";
-
    const selectedDayWindSpeed = forecast ? forecast[selectedDay ?? 0]?.windSpeed : "--";
 
    const onClickStatsHolder = useCallback(() => {
@@ -35,9 +30,7 @@ function MainTodayWeatherCard() {
    }, [selectedDay, setSelectedDay]);
 
    return (
-      <div
-         className={`MainTodayWeatherCard${selectedDay === undefined ? " closed" : ""}`}
-      >
+      <div className={`weatherMainDayCard${selectedDay === undefined ? " closed" : ""}`}>
          <div className="mainInfoBox">
             <h1 className="mainInfoBoxText">{selectedDayCurrentTemperature}</h1>
             <h1 className="mainInfoBoxTextShadow">{selectedDayCurrentTemperature}</h1>
@@ -93,4 +86,4 @@ function MainTodayWeatherCard() {
    );
 }
 
-export default memo(MainTodayWeatherCard);
+export default memo(WeatherMainDayCard);
