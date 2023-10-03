@@ -1,13 +1,521 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+   font-family: "Poppins", sans-serif;
+   background-color: var(--secondaryLight2Color);
+   background-image: linear-gradient(to top left, var(--backgroundLevel1), var(--secondaryLight2Color));
+   margin: 0;
+   padding: 0;
+   overflow-x: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+   min-height: 100svh;
+   margin: 0;
+   padding: 0;
+   overflow-x: hidden;
+}
+
+* {
+   -webkit-tap-highlight-color: transparent;
+   scroll-behavior: smooth;
+}
+
+::-moz-selection {
+   color: #f8f8f8;
+   background: #114904;
+}
+
+::selection {
+   color: #f8f8f8;
+   background: #114904;
+}
+
+:root {
+   --defaultHorizontalInset: 20px;
+   --defaultWidth: calc(100% - var(--defaultHorizontalInset) * 2);
+
+   --topBarHeight: 70px;
+
+   --backgroundLevel1: #f8f8f8;
+   --backgroundLevel1_80: #f8f8f880;
+   --backgroundLevel2: #d8d8d8;
+   --backgroundLevel3: #c8c8c8;
+   --backgroundLevel4: #b8b8b8;
+   --textLevel1: #111111;
+   --textLevel2: #111111a0;
+   --textLevel3: #22222280;
+
+   --primaryColor: #390cbd;
+   --secondaryColor: #7fa1f7;
+   --secondaryLightColor: #a9c2fc;
+   --secondaryLightColor_80: #a9c2fc80;
+   --secondaryLight2Color: #d9e9fc;
+
+   --shadowColor: #250682;
+}
+
+/*#region Top bar */
+.topBar {
+   position: fixed;
+   width: 100%;
+   height: var(--topBarHeight);
+   margin-top: var(--defaultHorizontalInset);
+   z-index: 10;
+}
+
+.underTopBar {
+   position: relative;
+   width: 100%;
+   height: calc(var(--topBarHeight) + var(--defaultHorizontalInset));
+}
+
+.topBar .topBarBackButton {
+   display: flex;
+   position: absolute;
+   width: 42px;
+   height: 42px;
+   top: 50%;
+   left: var(--defaultHorizontalInset);
+   background-color: #00000000;
+   border-radius: 999px;
+   transform: translateY(-50%);
+   cursor: pointer;
+   opacity: 0;
+   pointer-events: none;
+
+   align-items: center;
+   justify-content: center;
+}
+
+.topBar .topBarBackButton:hover {
+   background-color: #00000020;
+}
+
+.topBar.withSelected .topBarBackButton {
+   opacity: 1;
+   pointer-events: all;
+}
+
+.topBar .topBarBackButton svg {
+   position: relative;
+   width: 24px;
+   height: 100%;
+   color: var(--textLevel1);
+}
+
+.topBar .topBarContent {
+   display: flex;
+   position: relative;
+   width: fit-content;
+   height: 100%;
+   margin: 0px auto;
+
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   gap: 10px;
+}
+
+.topBar .topBarContent h1 {
+   color: var(--backgroundLevel1);
+   white-space: nowrap;
+}
+
+.topBar.withSelected .topBarContent h1 {
+   color: var(--primaryColor);
+}
+
+.topBar .topBarContent h1 svg {
+   max-width: 20px;
+   transition: none;
+}
+
+.topBar .topBarContent p {
+   color: var(--backgroundLevel1_80);
+}
+
+.topBar.withSelected .topBarContent p {
+   color: var(--textLevel2);
+}
+/*#endregion */
+
+/*#region Main today weather card */
+.MainTodayWeatherCard {
+   --MainTodayWeatherCardContentMaxWidth: 400px;
+
+   position: relative;
+   width: 100%;
+   margin-top: 30px;
+   margin-bottom: 50px;
+}
+
+.MainTodayWeatherCard .mainInfoBox {
+   --mainInfoBoxTopSpace: 20px;
+   --mainInfoBoxBorderRadius: 26px;
+
+   position: relative;
+   width: calc(var(--MainTodayWeatherCardContentMaxWidth) - 60px);
+   height: auto;
+   left: 50%;
+   background-image: linear-gradient(to top right, var(--primaryColor), var(--secondaryColor));
+   border-radius: var(--mainInfoBoxBorderRadius);
+   transform: translateX(-50%);
+   padding: var(--mainInfoBoxTopSpace) 0px 20px;
+}
+
+.MainTodayWeatherCard.closed .mainInfoBox {
+   width: 100%;
+   height: calc(75% + var(--topBarHeight) + var(--defaultHorizontalInset));
+   margin-top: calc((30px + var(--topBarHeight) + var(--defaultHorizontalInset) + var(--mainInfoBoxBorderRadius)) * -1);
+}
+
+.MainTodayWeatherCard.closed .mainInfoBox * {
+   opacity: 0;
+   pointer-events: none;
+}
+
+.MainTodayWeatherCard .mainInfoBox .mainInfoBoxText,
+.MainTodayWeatherCard .mainInfoBox .mainInfoBoxTextShadow {
+   position: relative;
+   width: fit-content;
+   font-size: 190px;
+   text-align: center;
+   line-height: 150px;
+   left: 50%;
+   background: -webkit-linear-gradient(var(--backgroundLevel1), var(--secondaryLightColor));
+   background-clip: text;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   transform: translateX(-50%);
+   user-select: none;
+}
+
+.MainTodayWeatherCard .mainInfoBox .mainInfoBoxText::after,
+.MainTodayWeatherCard .mainInfoBox .mainInfoBoxTextShadow::after {
+   content: "°";
+   position: absolute;
+   font-size: 150px;
+   top: -30px;
+   right: 6px;
+   background: -webkit-linear-gradient(var(--backgroundLevel1), var(--secondaryLightColor));
+   background-clip: text;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   transform: translateX(100%);
+}
+
+.MainTodayWeatherCard .mainInfoBox .mainInfoBoxText {
+   z-index: 1;
+}
+
+.MainTodayWeatherCard .mainInfoBox .mainInfoBoxTextShadow {
+   position: absolute;
+   top: var(--mainInfoBoxTopSpace);
+   text-shadow: 0px 30px 30px var(--shadowColor);
+}
+
+.MainTodayWeatherCard .mainInfoBox .mainInfoBoxDetails {
+   display: grid;
+   position: relative;
+   width: 100%;
+   margin-top: 16px;
+
+   grid-template-columns: 1fr 1fr;
+}
+
+.MainTodayWeatherCard .mainInfoBox .mainInfoBoxDetails .mainInfoBoxDetailsImage {
+   position: relative;
+   width: 100%;
+}
+
+.MainTodayWeatherCard .mainInfoBox .mainInfoBoxDetails .mainInfoBoxDetailsImage img {
+   position: absolute;
+   width: 240px;
+   top: -100px;
+   right: 0px;
+   z-index: 1;
+   transform: scale(-1, 1);
+   filter: drop-shadow(0px 20px 30px var(--shadowColor));
+}
+
+.MainTodayWeatherCard .mainInfoBox .mainInfoBoxDetails .mainInfoBoxDetailsDescription {
+   display: flex;
+   position: relative;
+   width: 100%;
+   height: 80px;
+
+   align-items: center;
+}
+
+.MainTodayWeatherCard .mainInfoBox .mainInfoBoxDetails .mainInfoBoxDetailsDescription p {
+   position: relative;
+   width: 100%;
+   font-size: 32px;
+   text-transform: capitalize;
+   word-spacing: 1000px;
+   color: var(--secondaryLightColor);
+}
+
+.MainTodayWeatherCard .statsHolder {
+   position: relative;
+   width: var(--defaultWidth);
+   max-width: var(--MainTodayWeatherCardContentMaxWidth);
+   left: 50%;
+   background-color: var(--backgroundLevel1);
+   border-radius: 20px;
+   margin-top: 20px;
+   padding: 20px 0px;
+   transform: translateX(-50%);
+   box-shadow: 0px 60px 30px -40px var(--secondaryLightColor);
+}
+
+.MainTodayWeatherCard .statsHolder:hover {
+   box-shadow: 0px 50px 30px -20px var(--secondaryLightColor);
+}
+
+.MainTodayWeatherCard.closed .statsHolder {
+   margin-top: calc(-168px + 20px);
+   padding: 40px 0px;
+}
+
+.MainTodayWeatherCard .statsHolder .statsHolderDetails {
+   display: grid;
+   position: relative;
+   width: 100%;
+   margin-bottom: 0px;
+   opacity: 0;
+   pointer-events: none;
+
+   grid-template-columns: 1fr 1fr;
+   grid-template-rows: 0fr;
+}
+
+.MainTodayWeatherCard.closed .statsHolder .statsHolderDetails {
+   margin-bottom: 40px;
+   opacity: 1;
+   pointer-events: all;
+
+   grid-template-rows: 1fr;
+}
+
+.MainTodayWeatherCard .statsHolder .statsHolderDetails .statsHolderDetailsImage {
+   position: relative;
+   width: 100%;
+   /* overflow: hidden; */
+}
+
+.MainTodayWeatherCard .statsHolder .statsHolderDetails .statsHolderDetailsImage img {
+   position: absolute;
+   width: 200px;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   filter: drop-shadow(0px 20px 30px var(--secondaryLightColor));
+}
+
+.MainTodayWeatherCard .statsHolder .statsHolderDetails .statsHolderDetailsContent {
+   position: relative;
+   width: 100%;
+   overflow: hidden;
+}
+
+.MainTodayWeatherCard .statsHolder .statsHolderDetails .statsHolderDetailsContent .day {
+   position: relative;
+   font-size: 18px;
+   color: var(--textLevel3);
+}
+
+.MainTodayWeatherCard .statsHolder .statsHolderDetails .statsHolderDetailsContent .minMaxTemperatures {
+   display: flex;
+   position: relative;
+   width: 100%;
+   font-weight: bold;
+   color: var(--primaryColor);
+   margin-bottom: 10px;
+
+   flex-direction: row;
+}
+
+.MainTodayWeatherCard .statsHolder .statsHolderDetails .statsHolderDetailsContent .minMaxTemperatures .max {
+   font-size: 76px;
+}
+
+.MainTodayWeatherCard .statsHolder .statsHolderDetails .statsHolderDetailsContent .minMaxTemperatures .min {
+   font-size: 32px;
+   align-self: flex-end;
+   margin-left: -20px;
+}
+
+.MainTodayWeatherCard .statsHolder .statsHolderDetails .statsHolderDetailsContent .forecast {
+   position: relative;
+   font-size: 18px;
+   text-transform: capitalize;
+   color: var(--secondaryLightColor);
+}
+
+.MainTodayWeatherCard .statsHolder .stats {
+   display: grid;
+   position: relative;
+   width: 100%;
+
+   grid-template-columns: 1fr 1fr 1fr;
+}
+
+.MainTodayWeatherCard .statsHolder .statsItem {
+   display: flex;
+   position: relative;
+   font-size: 20px;
+
+   flex-direction: column;
+   align-items: center;
+   gap: 4px;
+}
+
+.MainTodayWeatherCard .statsHolder .statsItem svg {
+   width: 24px;
+   height: 24px;
+   color: var(--primaryColor);
+   margin-bottom: 10px;
+}
+
+.MainTodayWeatherCard .statsHolder .statsItem span {
+   font-size: 14px;
+   color: var(--secondaryLightColor);
+}
+/*#endregion */
+
+/*#region Weather forecast list */
+.weatherForecastList {
+   display: flex;
+   position: relative;
+   width: var(--defaultWidth);
+   height: 0px;
+   max-width: 500px;
+   margin: 0px auto;
+   opacity: 0;
+   pointer-events: none;
+
+   flex-direction: column;
+   gap: 10px;
+}
+
+body:has(.MainTodayWeatherCard.closed) .weatherForecastList {
+   height: auto;
+   opacity: 1;
+   pointer-events: all;
+}
+
+.weatherForecastList .weatherForecastListItem {
+   display: flex;
+   position: relative;
+   width: calc(100% - 20px * 2);
+   cursor: pointer;
+   border-radius: 10px;
+   padding: 10px 20px;
+
+   flex-direction: row;
+   align-items: center;
+   gap: 30px;
+}
+
+.weatherForecastList .weatherForecastListItem:hover {
+   box-shadow: 0px 20px 30px var(--secondaryLightColor_80);
+}
+
+.weatherForecastList .weatherForecastListItem .date {
+   display: flex;
+   position: relative;
+
+   flex-direction: column;
+   align-items: center;
+   gap: 4px;
+}
+
+.weatherForecastList .weatherForecastListItem .date h4 {
+   color: var(--secondaryColor);
+}
+
+.weatherForecastList .weatherForecastListItem .date p {
+   font-size: 14px;
+   color: var(--textLevel3);
+}
+
+.weatherForecastList .weatherForecastListItem .weather {
+   flex: 1;
+   display: flex;
+   position: relative;
+
+   flex-direction: row;
+   gap: 14px;
+}
+
+.weatherForecastList .weatherForecastListItem .weather .weatherImage {
+   position: relative;
+   width: 50px;
+}
+
+.weatherForecastList .weatherForecastListItem .weather .weatherImage img {
+   position: absolute;
+   width: 60px;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   filter: drop-shadow(0px 10px 6px var(--secondaryLightColor));
+}
+
+.weatherForecastList .weatherForecastListItem .weather p {
+   position: relative;
+   text-transform: capitalize;
+   color: var(--textLevel2);
+}
+
+.weatherForecastList .weatherForecastListItem .temperature {
+   position: relative;
+   color: var(--textLevel2);
+}
+
+.weatherForecastList .weatherForecastListItem .temperature span {
+   font-size: 14px;
+   color: var(--textLevel3);
+}
+/*#endregion */
+
+/*#region Region */
+
+/*#endregion */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+ul,
+span,
+div,
+svg,
+input,
+img,
+::before,
+::after {
+   margin: 0;
+   padding: 0;
+   transition: 0.3s ease-out;
+}
+
+a {
+   color: #f8f8f8;
+   text-decoration: none;
+}
+
+img {
+   user-select: none;
+   -webkit-user-drag: none;
+}
+
+@media screen and (max-width: 400px) {
+   .MainTodayWeatherCard {
+      --MainTodayWeatherCardContentMaxWidth: 100%;
+   }
 }

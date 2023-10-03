@@ -1,0 +1,25 @@
+{
+   "bracketSameLine": false,
+   "bracketSpacing": true,
+   "semi": true,
+   "singleQuote": false,
+   "trailingComma": "all",
+   "singleAttributePerLine": false,
+   "htmlWhitespaceSensitivity": "css",
+   "vueIndentScriptAndStyle": false,
+   "proseWrap": "preserve",
+   "insertPragma": false,
+   "printWidth": 90,
+   "requirePragma": false,
+   "tabWidth": 3,
+   "useTabs": false,
+   "embeddedLanguageFormatting": "auto",
+   "overrides": [
+      {
+         "files": "*.css",
+         "options": {
+            "printWidth": 120
+         }
+      }
+   ]
+}

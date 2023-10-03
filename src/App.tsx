@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+
+import { appSlice } from "./redux/slices/app";
+
+import { useAction, useLocation, useReduxState } from "./utils/hooks";
+
+import TopBar from "./components/TopBar";
+import MainTodayWeatherCard from "./components/MainTodayWeatherCard";
+import WeatherForecastList from "./components/WeatherForecastList";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   const location = useLocation();
+
+   const currentLocationName = useReduxState((state) => state.app.currentLocation?.name);
+
+   const loadCurrentLocationForecast = useAction(
+      appSlice.actions.loadCurrentLocationForecast,
+   );
+
+   useEffect(() => {
+      loadCurrentLocationForecast();
+   }, []); // eslint-disable-line
+
+   return (
+      <>
+         <TopBar
+            location={
+               location === undefined
+                  ? "Loading..."
+                  : location
+                  ? currentLocationName ?? `${location.lat}, ${location.lon}`
+                  : currentLocationName ?? `Location denied`
+            }
+         />
+         <MainTodayWeatherCard />
+         <WeatherForecastList days={4} />
+      </>
+   );
 }
 
 export default App;
