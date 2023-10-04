@@ -131,11 +131,35 @@ body {
    transition: none;
 }
 
-.topBar .topBarContent p {
+.topBar .topBarContent > div {
+   display: flex;
+   width: 100%;
+
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+}
+
+.topBar .topBarContent > div > p {
+   width: fit-content;
    color: var(--backgroundLevel1_80);
 }
 
-.topBar.withSelected .topBarContent p {
+.topBar.withSelected .topBarContent > div > p {
+   color: var(--textLevel2);
+}
+
+.topBar .topBarContent > div > select {
+   position: relative;
+   font-size: 16px;
+   color: var(--backgroundLevel1_80);
+   background-color: transparent;
+   border: 0;
+   outline: 0;
+   margin-left: 6px;
+}
+
+.topBar.withSelected .topBarContent > div > select {
    color: var(--textLevel2);
 }
 /*#endregion */
@@ -501,10 +525,8 @@ body:has(.weatherMainDayCard.closed) .weatherForecastList .weatherForecastListCo
 .weatherDayDetails {
    display: grid;
    position: relative;
-   width: var(--defaultWidth);
+   width: 100%;
    height: auto;
-   max-width: var(--maxContentWidth);
-   margin: 0px auto;
    opacity: 1;
    pointer-events: all;
 
@@ -512,7 +534,6 @@ body:has(.weatherMainDayCard.closed) .weatherForecastList .weatherForecastListCo
 }
 
 body:has(.weatherMainDayCard.closed) .weatherDayDetails {
-   height: 0px;
    opacity: 0;
    pointer-events: none;
 
@@ -520,16 +541,20 @@ body:has(.weatherMainDayCard.closed) .weatherDayDetails {
 }
 
 .weatherDayDetails .summary {
-   width: 100%;
+   position: relative;
+   width: var(--defaultWidth);
+   max-width: var(--maxContentWidth);
    text-align: center;
    color: var(--textLevel3);
-   margin-bottom: 20px;
+   margin: 0px auto 20px auto;
 }
 
 .weatherDayDetails .sunTime {
    display: grid;
    position: relative;
-   width: 100%;
+   width: var(--defaultWidth);
+   max-width: var(--maxContentWidth);
+   margin: 0px auto 3ch auto;
 
    grid-template-columns: 1fr 1fr;
    gap: 10px;
@@ -560,6 +585,72 @@ body:has(.weatherMainDayCard.closed) .weatherDayDetails {
 
 .weatherDayDetails .sunTime div svg.moon {
    color: #26587c;
+}
+
+.weatherDayDetails .hourlyList {
+   position: relative;
+   width: 100%;
+   margin-bottom: 60px;
+   padding-bottom: 40px;
+   white-space: nowrap;
+   overflow-x: auto;
+}
+
+.weatherDayDetails .hourlyList::-webkit-scrollbar {
+   height: 0px;
+}
+
+.weatherDayDetails .hourlyList .hourlyListItem {
+   display: inline-block;
+   width: calc(70px - 8px * 2);
+   background-color: var(--secondaryColor);
+   border-radius: 20px;
+   box-shadow: 0px 20px 30px -10px var(--secondaryColor);
+   margin-right: 10px;
+   padding: 16px 8px;
+}
+
+.weatherDayDetails .hourlyList .hourlyListItem:first-child {
+   margin-left: 200px;
+}
+
+.weatherDayDetails .hourlyList .hourlyListItem:last-child {
+   margin-right: 200px;
+}
+
+.weatherDayDetails .hourlyList .hourlyListItem .hourlyListItemContent {
+   display: flex;
+   width: 100%;
+
+   flex-direction: column;
+   align-items: center;
+   gap: 10px;
+}
+
+.weatherDayDetails .hourlyList .hourlyListItem .hourlyListItemContent p {
+   position: relative;
+   width: 100%;
+   text-align: center;
+   color: var(--backgroundLevel1);
+}
+
+.weatherDayDetails .hourlyList .hourlyListItem .hourlyListItemContent p:last-child {
+   font-weight: bold;
+}
+
+.weatherDayDetails .hourlyList .hourlyListItem .hourlyListItemContent .weatherImage {
+   position: relative;
+   width: 40px;
+   aspect-ratio: 1;
+}
+
+.weatherDayDetails .hourlyList .hourlyListItem .hourlyListItemContent .weatherImage img {
+   position: absolute;
+   width: 50px;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   filter: drop-shadow(0px 6px 10px var(--primaryColor));
 }
 /*#endregion */
 
@@ -596,6 +687,16 @@ a {
 img {
    user-select: none;
    -webkit-user-drag: none;
+}
+
+@media screen and (max-width: 900px) {
+   .weatherDayDetails .hourlyList .hourlyListItem:first-child {
+      margin-left: var(--defaultHorizontalInset);
+   }
+
+   .weatherDayDetails .hourlyList .hourlyListItem:last-child {
+      margin-right: var(--defaultHorizontalInset);
+   }
 }
 
 @media screen and (max-width: 600px) {

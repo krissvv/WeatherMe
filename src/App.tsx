@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { appSlice } from "./redux/slices/app";
+import { weatherSlice } from "./redux/slices/weather";
 
 import { useAction, useLocation, useReduxState } from "./utils/hooks";
 
@@ -8,17 +8,22 @@ import TopBar from "./components/TopBar";
 import WeatherMainDayCard from "./components/WeatherMainDayCard";
 import WeatherForecastList from "./components/WeatherForecastList";
 import WeatherDayDetails from "./components/WeatherDayDetails";
+import { appSlice } from "./redux/slices/app";
 
 function App() {
    const location = useLocation();
 
-   const currentLocationName = useReduxState((state) => state.app.currentLocation?.name);
+   const currentLocationName = useReduxState(
+      (state) => state.weather.currentLocation?.name,
+   );
 
+   const setSelectedUnit = useAction(appSlice.actions.setUnit);
    const loadCurrentLocationForecast = useAction(
-      appSlice.actions.loadCurrentLocationForecast,
+      weatherSlice.actions.loadCurrentLocationForecast,
    );
 
    useEffect(() => {
+      setSelectedUnit((localStorage.getItem("unit") as Unit) ?? "metric");
       loadCurrentLocationForecast();
    }, []); // eslint-disable-line
 
@@ -34,7 +39,7 @@ function App() {
             }
          />
          <WeatherMainDayCard />
-         <WeatherForecastList days={4} />
+         <WeatherForecastList days={5} />
          <WeatherDayDetails />
       </>
    );

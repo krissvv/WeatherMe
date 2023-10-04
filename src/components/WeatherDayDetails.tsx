@@ -7,8 +7,8 @@ import { useReduxState, useTime } from "../utils/hooks";
 function WeatherDayDetails() {
    const time = useTime();
 
-   const selectedDay = useReduxState((state) => state.app.selectedDay);
-   const forecast = useReduxState((state) => state.app.forecast);
+   const selectedDay = useReduxState((state) => state.weather.selectedDay);
+   const forecast = useReduxState((state) => state.weather.forecast);
 
    if (!forecast) return null;
 
@@ -25,6 +25,25 @@ function WeatherDayDetails() {
                <FontAwesomeIcon icon={faMoon} className="moon" />
                {time.time(forecast[selectedDay ?? 0].sunset).time}
             </div>
+         </div>
+
+         <div className="hourlyList">
+            {forecast[selectedDay ?? 0].hourly?.map(
+               ({ icon, temperature, time: hourTime }) => (
+                  <div className="hourlyListItem" key={hourTime}>
+                     <div className="hourlyListItemContent">
+                        <p>{time.time(hourTime).time}</p>
+                        <div className="weatherImage">
+                           <img
+                              src={`http://openweathermap.org/img/wn/${icon}@4x.png`}
+                              alt="Weather icon"
+                           />
+                        </div>
+                        <p>{temperature}°</p>
+                     </div>
+                  </div>
+               ),
+            )}
          </div>
       </div>
    );

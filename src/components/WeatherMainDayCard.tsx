@@ -2,15 +2,16 @@ import { memo, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloud, faTint, faWind } from "@fortawesome/free-solid-svg-icons";
 
-import { appSlice } from "../redux/slices/app";
+import { weatherSlice } from "../redux/slices/weather";
 
 import { useAction, useReduxState } from "../utils/hooks";
 
 function WeatherMainDayCard() {
-   const selectedDay = useReduxState((state) => state.app.selectedDay);
-   const forecast = useReduxState((state) => state.app.forecast);
+   const selectedUnit = useReduxState((state) => state.app.unit);
+   const selectedDay = useReduxState((state) => state.weather.selectedDay);
+   const forecast = useReduxState((state) => state.weather.forecast);
 
-   const setSelectedDay = useAction(appSlice.actions.setSelectedDay);
+   const setSelectedDay = useAction(weatherSlice.actions.setSelectedDay);
 
    const selectedDayCurrentTemperature = forecast
       ? forecast[selectedDay ?? 0]?.temperature.current
@@ -77,7 +78,7 @@ function WeatherMainDayCard() {
                </div>
                <div className="statsItem">
                   <FontAwesomeIcon icon={faWind} />
-                  {selectedDayWindSpeed} km/h
+                  {selectedDayWindSpeed} {selectedUnit === "metric" ? "km/h" : "mi/h"}
                   <span>Wind speed</span>
                </div>
             </div>

@@ -1,6 +1,6 @@
 import { memo, useCallback } from "react";
 
-import { appSlice } from "../redux/slices/app";
+import { weatherSlice } from "../redux/slices/weather";
 
 import { useAction, useReduxState, useTime } from "../utils/hooks";
 
@@ -56,9 +56,9 @@ const WeatherForecastListItem = memo(function WeatherForecastListItem({
 function WeatherForecastList({ days }: WeatherForecastListProps) {
    const time = useTime();
 
-   const forecast = useReduxState((state) => state.app.forecast);
+   const forecast = useReduxState((state) => state.weather.forecast);
 
-   const setSelectedDay = useAction(appSlice.actions.setSelectedDay);
+   const setSelectedDay = useAction(weatherSlice.actions.setSelectedDay);
 
    return (
       <div className="weatherForecastList">

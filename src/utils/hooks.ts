@@ -98,7 +98,7 @@ export function useAction<T extends ActionCreator<Action>>(actionCreator: T): T 
    return ref.current;
 }
 
-export function useLocation() {
+export function useLocation(): false | LocationT | undefined {
    const [position, setPosition] = useState<GeolocationPosition>();
    const [error, setError] = useState<GeolocationPositionError>();
 
@@ -107,11 +107,19 @@ export function useLocation() {
    }, []);
 
    if (error) return false;
-   if (position)
-      return {
+   if (position) {
+      const location: LocationT = {
          lat: position?.coords.latitude ?? 0,
          lon: position?.coords.longitude ?? 0,
       };
+      localStorage.setItem("location", JSON.stringify(location));
+      return location;
+   }
+
+   const cachedLocation: LocationT = localStorage.getItem("location")
+      ? JSON.parse(localStorage.getItem("location") ?? "{}")
+      : undefined;
+   return cachedLocation;
 }
 
 export function useWeatherIcon() {}
