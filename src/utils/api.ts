@@ -4,7 +4,7 @@ export function getAPIRequest(url: string, params: Record<string, string | numbe
    return axios.get(url, {
       params: {
          ...params,
-         appid: "e2e28b1afeef6701c57c2d269329f53d",
+         appid: process.env.REACT_APP_OPEN_WEATHER_KEY ?? "undefined",
       },
    });
 }
