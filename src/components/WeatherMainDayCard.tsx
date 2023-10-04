@@ -16,7 +16,7 @@ function WeatherMainDayCard() {
    const selectedDayCurrentTemperature = forecast
       ? forecast[selectedDay ?? 0]?.temperature.current
       : "--";
-   const selectedDayWeatherIconURl = `http://openweathermap.org/img/wn/${
+   const selectedDayWeatherIconURl = `https://openweathermap.org/img/wn/${
       forecast ? forecast[selectedDay ?? 0]?.icon : "01d"
    }@4x.png`;
    const selectedDayDescription = forecast
@@ -48,7 +48,7 @@ function WeatherMainDayCard() {
             <div className="statsHolderDetails">
                <div className="statsHolderDetailsImage">
                   <img
-                     src={`http://openweathermap.org/img/wn/${
+                     src={`https://openweathermap.org/img/wn/${
                         forecast ? forecast[0].icon : "01d"
                      }@4x.png`}
                      alt="Weather icon"

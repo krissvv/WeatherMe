@@ -74,7 +74,7 @@ function WeatherForecastList({ days }: WeatherForecastListProps) {
                         date={`${time.now(itemDayIndex).date} ${
                            time.now(itemDayIndex, true).monthName
                         }`}
-                        weatherIcon={`http://openweathermap.org/img/wn/${icon}@4x.png`}
+                        weatherIcon={`https://openweathermap.org/img/wn/${icon}@4x.png`}
                         forecast={description}
                         minTemperature={temperature.min ?? "--"}
                         maxTemperature={temperature.max ?? "--"}
