@@ -2,6 +2,10 @@
 
 Created by Kristiyan Valchev
 
+## Live demo
+
+Available on [weather-me-app.netlify.app](https://weather-me-app.netlify.app)
+
 ## Available Scripts
 
 In the project root directory, you can run the following commands:
